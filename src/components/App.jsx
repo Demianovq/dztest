@@ -17,17 +17,23 @@ export const App = () => {
   useEffect(() => {
     if (!isMoviesShown) {
       setMovies([]);
+
+      // Для пуша на гит \/
+      setPage(1);
       return;
     }
     setIsLoading(true);
-    const a = fetchMov(page)
+    fetchMov(page)
       .then(({ data: { results } }) => {
         setMovies(prev => [...prev, ...moviesMapper(results)]);
         setIsError(`null`);
       })
-      .catch(error => setIsError(error.message))
+      .catch(error => {
+        console.log(isError);
+        setIsError(error.message);
+      })
       .finally(() => setIsLoading(false));
-  }, [isMoviesShown, page]);
+  }, [isMoviesShown, page, isError]);
 
   const ShowMoviesList = () => {
     setIsMoviesShown(prev => !prev);
